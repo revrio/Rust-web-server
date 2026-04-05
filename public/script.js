@@ -1,0 +1,1 @@
+console.log("Rust server is serving JS!");

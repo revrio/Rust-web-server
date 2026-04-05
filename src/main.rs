@@ -1,0 +1,53 @@
+use simple_server::ThreadPool;
+use std::{
+    fs,
+    io::{BufReader, prelude::*},
+    net::{TcpListener, TcpStream},
+};
+use std::sync::{Arc, Mutex};
+
+fn main() {
+    let listener = TcpListener::bind("0.0.0.0:8000").unwrap();
+    let pool = ThreadPool::new(4);
+
+    let counter = Arc::new(Mutex::new(0)); 
+
+    println!("Server is listening on port 8000!");
+    
+    for stream in listener.incoming() {
+        let stream = stream.unwrap();
+        let counter_clone = Arc::clone(&counter);
+        pool.execute(move || {
+            handle_connection(stream, counter_clone);
+        });
+    }
+}
+
+fn handle_connection(mut stream: TcpStream, counter: Arc<Mutex<usize>>) {
+    let buf_reader = BufReader::new(&stream);
+    let request_line = buf_reader.lines().next().unwrap().unwrap();
+
+    let (status_line, filename) = if request_line == "GET / HTTP/1.1" {
+    ("HTTP/1.1 200 OK", "public/index.html")
+    } else if request_line == "GET /style.css HTTP/1.1" {
+        ("HTTP/1.1 200 OK", "public/style.css")
+    } else if request_line == "GET /script.js HTTP/1.1" {
+        ("HTTP/1.1 200 OK", "public/script.js")
+    } else {
+        ("HTTP/1.1 404 NOT FOUND", "public/404.html")
+    };
+    let mut contents = fs::read_to_string(filename).unwrap();
+
+    if filename == "public/index.html" {
+        let mut num = counter.lock().unwrap();
+        *num += 1;
+        contents = contents.replace("</h1>", &format!("</h1>\n<p><strong>You are visitor #{}!</strong></p>", *num));
+    }
+   
+    let length = contents.len();
+
+    let response =
+        format!("{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}");
+
+    stream.write_all(response.as_bytes()).unwrap();
+}
