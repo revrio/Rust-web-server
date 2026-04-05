@@ -26,7 +26,7 @@ fn main() {
 fn handle_connection(mut stream: TcpStream, counter: Arc<Mutex<usize>>) {
     let buf_reader = BufReader::new(&stream);
     let request_line = buf_reader.lines().next().unwrap().unwrap();
-
+    
     let (status_line, filename) = if request_line == "GET / HTTP/1.1" {
     ("HTTP/1.1 200 OK", "public/index.html")
     } else if request_line == "GET /style.css HTTP/1.1" {
@@ -36,12 +36,16 @@ fn handle_connection(mut stream: TcpStream, counter: Arc<Mutex<usize>>) {
     } else {
         ("HTTP/1.1 404 NOT FOUND", "public/404.html")
     };
+    println!("Request: {}", request_line);
+    println!("Status: {}", status_line);
+    
     let mut contents = fs::read_to_string(filename).unwrap();
 
     if filename == "public/index.html" {
         let mut num = counter.lock().unwrap();
         *num += 1;
         contents = contents.replace("</h1>", &format!("</h1>\n<p><strong>You are visitor #{}!</strong></p>", *num));
+        println!("Visitor count: {}", *num);
     }
    
     let length = contents.len();

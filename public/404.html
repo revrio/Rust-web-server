@@ -1,11 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Hello!</title>
-  </head>
-  <body>
-    <h1>Oops!</h1>
-    <p>Sorry, I don't know what you're asking for.</p>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>404 — Not Found</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<div class="glow"></div>
+
+<div class="card">
+  <div class="bracket tl"></div>
+  <div class="bracket tr"></div>
+  <div class="bracket bl"></div>
+  <div class="bracket br"></div>
+
+  <div class="crab-wrap lost" title="Ferris is lost 🦀">
+    <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="100" cy="95" rx="52" ry="38" fill="#ce422b"/>
+      <ellipse cx="100" cy="85" rx="36" ry="22" fill="#d9563d" opacity=".55"/>
+      <rect x="78"  y="60" width="5" height="14" rx="2" fill="#8c2a1a"/>
+      <rect x="117" y="60" width="5" height="14" rx="2" fill="#8c2a1a"/>
+      
+      <circle cx="80"  cy="57" r="8" fill="#1a1a1a"/>
+      <circle cx="120" cy="52" r="8" fill="#1a1a1a"/>
+      <circle cx="82"  cy="55" r="3" fill="#fff"/>
+      <circle cx="122" cy="50" r="3" fill="#fff"/>
+     
+      <path d="M50 100 Q20 70 15 48" stroke="#b03523" stroke-width="10" fill="none" stroke-linecap="round"/>
+      <ellipse cx="12" cy="40" rx="12" ry="9" fill="#ce422b" transform="rotate(-40,12,40)"/>
+      <ellipse cx="5"  cy="32" rx="8"  ry="6" fill="#ce422b" transform="rotate(-55,5,32)"/>
+   
+      <path d="M150 100 Q172 95 180 88" stroke="#b03523" stroke-width="10" fill="none" stroke-linecap="round"/>
+      <ellipse cx="185" cy="84" rx="11" ry="8" fill="#ce422b" transform="rotate(10,185,84)"/>
+      <ellipse cx="192" cy="78" rx="8"  ry="6" fill="#ce422b" transform="rotate(20,192,78)"/>
+    
+      <line x1="68"  y1="120" x2="50"  y2="148" stroke="#b03523" stroke-width="5" stroke-linecap="round"/>
+      <line x1="80"  y1="128" x2="65"  y2="155" stroke="#b03523" stroke-width="5" stroke-linecap="round"/>
+      <line x1="132" y1="120" x2="150" y2="148" stroke="#b03523" stroke-width="5" stroke-linecap="round"/>
+      <line x1="120" y1="128" x2="135" y2="155" stroke="#b03523" stroke-width="5" stroke-linecap="round"/>
+     
+      <path d="M88 115 Q100 107 112 115" stroke="#8c2a1a" stroke-width="3" fill="none" stroke-linecap="round"/>
+   
+      <text x="128" y="36" font-family="Space Mono, monospace" font-size="22" font-weight="700"
+            fill="#ce422b" opacity=".8">?</text>
+    </svg>
+  </div>
+
+  <div class="error-code">404</div>
+  <h1>Page <span>Not</span> Found</h1>
+  <p class="tagline">resource missing</p>
+
+  <div class="divider"></div>
+
+  <p class="error-msg">
+    <code>The requested resource</code> may have been moved, deleted, or it never existed.
+  </p>
+
+  <a href="/" class="back-link">← back to home</a>
+
+  <div class="pills">
+    <span class="pill red">● 404 error</span>
+    <span class="pill orange">not found</span>
+    <span class="pill blue">rust 🦀</span>
+    <span class="cursor"></span>
+  </div>
+</div>
+
+</body>
 </html>

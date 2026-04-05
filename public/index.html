@@ -1,14 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link rel="stylesheet" href="./style.css">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rust Web Server</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-    <h1>Hello from Rust!</h1>
-</body>
+
+<div class="glow"></div>
+
+<div class="card">
+  <div class="bracket tl"></div>
+  <div class="bracket tr"></div>
+  <div class="bracket bl"></div>
+  <div class="bracket br"></div>
+
+  <div class="crab-wrap" title="Ferris the Crab 🦀">
+    <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="100" cy="95" rx="52" ry="38" fill="#ce422b"/>
+      <ellipse cx="100" cy="85" rx="36" ry="22" fill="#d9563d" opacity=".55"/>
+      <rect x="78"  y="60" width="5" height="14" rx="2" fill="#8c2a1a"/>
+      <rect x="117" y="60" width="5" height="14" rx="2" fill="#8c2a1a"/>
+      <circle cx="80"  cy="57" r="8" fill="#1a1a1a"/>
+      <circle cx="120" cy="57" r="8" fill="#1a1a1a"/>
+      <circle cx="82"  cy="55" r="3" fill="#fff"/>
+      <circle cx="122" cy="55" r="3" fill="#fff"/>
+      <path d="M50 100 Q28 85 22 68" stroke="#b03523" stroke-width="10" fill="none" stroke-linecap="round"/>
+      <ellipse cx="17" cy="60" rx="13" ry="10" fill="#ce422b" transform="rotate(-20,17,60)"/>
+      <ellipse cx="10" cy="53" rx="9"  ry="7"  fill="#ce422b" transform="rotate(-35,10,53)"/>
+      <path d="M150 100 Q172 85 178 68" stroke="#b03523" stroke-width="10" fill="none" stroke-linecap="round"/>
+      <ellipse cx="183" cy="60" rx="13" ry="10" fill="#ce422b" transform="rotate(20,183,60)"/>
+      <ellipse cx="190" cy="53" rx="9"  ry="7"  fill="#ce422b" transform="rotate(35,190,53)"/>
+      <line x1="68"  y1="120" x2="50"  y2="148" stroke="#b03523" stroke-width="5" stroke-linecap="round"/>
+      <line x1="80"  y1="128" x2="65"  y2="155" stroke="#b03523" stroke-width="5" stroke-linecap="round"/>
+      <line x1="132" y1="120" x2="150" y2="148" stroke="#b03523" stroke-width="5" stroke-linecap="round"/>
+      <line x1="120" y1="128" x2="135" y2="155" stroke="#b03523" stroke-width="5" stroke-linecap="round"/>
+      <path d="M88 110 Q100 120 112 110" stroke="#8c2a1a" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <h1>Rust <span>Web</span> Server</h1>
+  <p class="tagline">Multithreaded · Fast · Memory-safe</p>
+
+  <div class="divider"></div>
+
+  <div class="visitor" id="fallback">Serving requests at full speed 🦀</div>
+
+  <div class="pills">
+    <span class="pill green">● online</span>
+    <span class="cursor"></span>
+  </div>
+</div>
+
 <script src="./script.js"></script>
+
+</body>
 </html>
