@@ -25,33 +25,53 @@ fn main() {
 
 fn handle_connection(mut stream: TcpStream, counter: Arc<Mutex<usize>>) {
     let buf_reader = BufReader::new(&stream);
-    let request_line = buf_reader.lines().next().unwrap().unwrap();
     
-    let (status_line, filename) = if request_line == "GET / HTTP/1.1" {
-    ("HTTP/1.1 200 OK", "public/index.html")
-    } else if request_line == "GET /style.css HTTP/1.1" {
-        ("HTTP/1.1 200 OK", "public/style.css")
-    } else if request_line == "GET /script.js HTTP/1.1" {
-        ("HTTP/1.1 200 OK", "public/script.js")
-    } else {
-        ("HTTP/1.1 404 NOT FOUND", "public/404.html")
+    let request_line = match buf_reader.lines().next() {
+        Some(Ok(line)) => line,
+        _ => return,
     };
-    println!("Request: {}", request_line);
-    println!("Status: {}", status_line);
-    
-    let mut contents = fs::read_to_string(filename).unwrap();
+
+    let ip = stream.peer_addr().unwrap().ip();
+    println!("[LOG] Connection from IP: {} | Request: {}", ip, request_line);
+
+    let parts: Vec<&str> = request_line.split_whitespace().collect();
+    let path = if parts.len() > 1 { parts[1] } else { "/" };
+
+    let filename = if path == "/" { 
+        "public/index.html".to_string() 
+    } else { 
+        format!("public{}", path) 
+    };
+
+    let (status_line, mut contents, content_type) = match fs::read(&filename) {
+        Ok(data) => {
+            let mime = if filename.ends_with(".css") { "text/css" }
+                       else if filename.ends_with(".js") { "application/javascript" }
+                       else if filename.ends_with(".png") { "image/png" }
+                       else { "text/html" };
+            ("HTTP/1.1 200 OK", data, mime)
+        },
+        Err(_) => {
+            let data = fs::read("public/404.html").unwrap_or_else(|_| b"404 Not Found".to_vec());
+            ("HTTP/1.1 404 NOT FOUND", data, "text/html")
+        }
+    };
 
     if filename == "public/index.html" {
         let mut num = counter.lock().unwrap();
         *num += 1;
-        contents = contents.replace("</h1>", &format!("</h1>\n<p><strong>You are visitor #{}!</strong></p>", *num));
-        println!("Visitor count: {}", *num);
+        
+        let mut html_string = String::from_utf8_lossy(&contents).to_string();
+        html_string = html_string.replace("</h1>", &format!("</h1>\n<p><strong>You are visitor #{}!</strong></p>", *num));
+        contents = html_string.into_bytes();
+        println!("Visitor count updated: {}", *num);
     }
-   
     let length = contents.len();
+    let response_header = format!(
+        "{}\r\nContent-Length: {}\r\nContent-Type: {}\r\n\r\n", 
+        status_line, length, content_type
+    );
 
-    let response =
-        format!("{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}");
-
-    stream.write_all(response.as_bytes()).unwrap();
+    stream.write_all(response_header.as_bytes()).unwrap();
+    stream.write_all(&contents).unwrap();
 }
